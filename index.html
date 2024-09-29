@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blanka.lol</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            filter: blur(10px);
+            transition: filter 0.5s ease;
+        }
+
+        .profile-container {
+            background-color: #ff9bcd;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            text-align: center;
+            opacity: 0.7;
+            border-radius: 15px;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+            display: none; /* Hidden by default */
+        }
+
+        .profile-container.show {
+            display: block;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.1);
+        }
+
+        .connection-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+
+        .connection-button {
+            width: 40px;
+            height: 40px;
+            opacity: 0.8;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .connection-button:hover {
+            cursor: pointer;
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        /* Homepage Content */
+        .homepage-container h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .homepage-container p {
+            color: #dcdcdc;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .love-message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ff3c9e;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+        }
+
+        .overlay:hover {
+            opacity: 0.9;
+        }
+
+        #trail-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .trail-line {
+            stroke: rgba(171, 53, 201, 0.5);
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body>
+    <svg id="trail-svg"></svg>
+    <div class="overlay" id="overlay" onclick="enterSite()">Click to enter</div>
+    <div class="profile-container" id="profile-container">
+        <audio loop id="profile-audio" preload="auto"></audio>
+    
+        <div class="profile-picture" id="profile-picture" style="background-image: url('assets/pfp.png');"></div>
+    
+        <div class="connection-buttons">
+            <img src="assets/icons/roblox-connection.png" class="connection-button" onclick="openLink('https://roblox.com/users/5709617728/profile')">
+            <img src="assets/icons/youtube-connection.png" class="connection-button" onclick="openLink('https://youtube.com/@cryblanka')">
+            <img src="assets/icons/guilded-connection.png" class="connection-button" onclick="openLink('https://guilded.gg/profile/w4WRrL0A')">
+            <img src="assets/icons/spotify-connection.png" class="connection-button" onclick="openLink('https://open.spotify.com/user/314y64ig2jdq43q2iz7eafk2v6nm')">
+            <img src="assets/icons/clippsly-connection.png" class="connection-button" onclick="openLink('https://clippsly.com/users/blanka')">
+            <img src="assets/icons/email-connection.png" class="connection-button" onclick="openLink('mailto:hello@blanka.lol')">
+        </div>        
+    
+        <div class="homepage-container">
+            <h2>Hi, I'm Blanka!</h2>
+            <p>I currently work at Clippsly as an Artist and Community Manager.<br>Just another silly unfunny person you'll meet lol.</p>
+            <div class="love-message">Built with love by Blanka in Poland 💜</div>
+        </div>
+    </div>
+    
+    <video loop id="background-video" muted playsinline>
+        <source id="video-source" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <script>
+        function openLink(url) {
+                window.open(url, '_blank');
+        }
+
+        function getRandomBackground() {
+            var totalVideos = 2;
+            var randomIndex = Math.floor(Math.random() * totalVideos) + 1;
+            var videoSrc = 'assets/background/bg' + randomIndex + '.mp4';
+
+            var videoElement = document.getElementById('background-video');
+            var videoSourceElement = document.getElementById('video-source');
+            var audioElement = document.getElementById('profile-audio');
+
+            videoSourceElement.src = videoSrc;
+            audioElement.src = videoSrc;
+
+            videoElement.load();
+            audioElement.load();
+        }
+
+        function enterSite() {
+            var video = document.getElementById('background-video');
+            var audio = document.getElementById('profile-audio');
+            var profileContainer = document.getElementById('profile-container');
+            var overlay = document.getElementById('overlay');
+
+            video.classList.remove('video-unblurred');
+
+            profileContainer.classList.add('show');
+
+            video.muted = true;
+            video.play().catch(function (error) {
+                console.error("Error playing the video:", error);
+            });
+
+            audio.play().then(function () {
+                console.log("Audio is playing.");
+            }).catch(function (error) {
+                console.error("Error playing the audio:", error);
+            });
+
+            var opacity = 1;
+            var interval = setInterval(function () {
+                opacity -= 0.1;
+                overlay.style.opacity = opacity;
+                if (opacity <= 0) {
+                    clearInterval(interval);
+                    overlay.style.display = 'none';
+                }
+            }, 50);
+        }
+
+        var svg = document.getElementById('trail-svg');
+        var previousX, previousY;
+
+        document.addEventListener('mousemove', function (event) {
+            if (previousX !== undefined && previousY !== undefined) {
+                var line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+                line.setAttribute('class', 'trail-line');
+                line.setAttribute('x1', previousX);
+                line.setAttribute('y1', previousY);
+                line.setAttribute('x2', event.pageX);
+                line.setAttribute('y2', event.pageY);
+                svg.appendChild(line);
+                setTimeout(function () {
+                    svg.removeChild(line);
+                }, 500);
+            }
+
+            previousX = event.pageX;
+            previousY = event.pageY;
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            getRandomBackground();
+        });
+    </script>
+</body>
+</html>
