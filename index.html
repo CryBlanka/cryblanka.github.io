@@ -159,7 +159,7 @@
         <div class="homepage-container">
             <h2>Hi, I'm Blanka!</h2>
             <p>I currently work at Clippsly as an Artist and Community Manager.<br>Just another silly unfunny person you'll meet lol.</p>
-            <div class="love-message">Built with love by Blanka in Poland 💜</div>
+            <div class="love-message">Built with love by Blanka in Poland 💜<br><span id="counter"></span></div>
         </div>
     </div>
     
@@ -245,6 +245,26 @@
         document.addEventListener("DOMContentLoaded", function () {
             getRandomBackground();
         });
+
+        const startTimestamp = 1725343200 * 1000;
+
+        function updateCounter() {
+            const now = new Date();
+            const startDate = new Date(startTimestamp);
+
+            let diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)) % 7;
+            const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7)) % 4;
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+
+            document.getElementById('counter').textContent =
+                `Months: ${months}, Weeks: ${weeks}, Days: ${days}`;
+        }
+
+        setInterval(updateCounter, 1000);
+
+        updateCounter();
     </script>
 </body>
 </html>
